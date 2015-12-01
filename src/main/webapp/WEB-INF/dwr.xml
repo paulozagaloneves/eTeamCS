@@ -1,0 +1,25 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
+    "http://getahead.org/dwr/dwr20.dtd">
+
+<dwr>
+  <allow>
+    <create creator="new" javascript="JDate">
+      <param name="class" value="java.util.Date"/>
+    </create>
+    <create javascript="Category" creator="new">
+    	<param name="class" value="org.eteamcs.ws.CategoryWS"/>
+    	<include method="getAllCategories"/> 
+    	<include method="getAllParentCategories"/> 
+    	<include method="getAllCategoriesByParentId"/>
+    	<include method="saveCategory"/>
+    	     	
+    </create>
+    <convert converter="bean" 
+      match="org.eteamcs.model.Category">
+      <param name="include" 
+        value="categoryId,name,parentId,column"/>
+    </convert>
+    
+  </allow>
+</dwr>

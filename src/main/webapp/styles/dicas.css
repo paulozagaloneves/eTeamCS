@@ -1,0 +1,40 @@
+/*.box {
+	background: url(../images/nuvola/large/kcmsystem.png) no-repeat top left;
+	width: 300px;
+	height: 300px;	
+}
+
+.box-title {
+	background-color: #eeeeee;
+	color: #000000;
+	font-weight: bold;
+}
+
+.box-body {
+	background-color: #ffffff;
+	border: 0px 1px 1px 1px solid #eeeeee;
+	width: 300px;
+	height: 300px;	
+}*/
+.bl {background: url() 0 100% no-repeat #ffffff; width: 64px; height:64px;}
+.br {background: url(br.gif) 100% 100% no-repeat}
+.tl {background: url(../images/nuvola/large/kcmsystem.png) 0 0 no-repeat; width: 64px; height:64px;}
+.tr {background: url(tr.gif) 100% 0 no-repeat; padding:10px}
+.clear {font-size: 1px; height: 1px}
+
+.box-outer {
+  width:150px;
+  height:150px;
+  background:#333;
+}
+  
+.box {
+  position:relative;
+  top:-3px;
+  left:-3px;
+  width:150px;
+  height:150px;
+  background:#eeeeee;
+}
+
+.topformbutton { cursor:pointer;  margin-top:5px;  border:outset 1px #ccc; background:#999; font-size:.9em; color:#666; font-weight:bold; padding:5px;  background:url(button-bg.gif) repeat-x left top; padding:1px; }

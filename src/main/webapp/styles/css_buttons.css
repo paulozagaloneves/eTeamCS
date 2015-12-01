@@ -1,0 +1,56 @@
+/*
+*/
+
+.inline-button {
+   _width:12em;
+   font: bold 7px Verdana, sans-serif;
+   margin: 0 0.2em; padding: 0.1em 0; _padding:0;
+   border: 1px solid black;
+   white-space:nowrap;
+   text-decoration: none;
+   vertical-align:middle;
+   background: #ccc;
+   color: black;
+   }
+
+.inline-button em {
+   _width:1em; _cursor:hand;
+   font-style: normal;
+   margin:0; padding: 0.1em 0.5em;
+   background: white;
+   color: black;
+   }
+
+.inline-button span {
+   _width:1em; _cursor:hand;
+   margin:0; padding: 0.1em 0.5em 0.1em 0.3em;
+   }
+
+.inline-button:hover {
+   background: #666;
+   color: white;
+   }
+
+.inline-button:hover em {
+   background: black;
+   color: white;
+   }
+
+.orange { background: #fc7116; color: white }
+.orange em { background: white; color: #fc7116 }
+
+.red { background: #ff0000; color: white }
+.red em { background: white; color: #ff0000 }
+
+.blue { background: #06c; color: white }
+.blue em { background: white; color: #06c }
+
+.green { background: green; color: white }
+.green em { background: white; color: green }
+
+.darkblue { background:#006; color:white }
+.darkblue em { background:#ccf; color:#006 }
+
+.brown { background:#dd9; color:black }
+.brown em { background:#003; color:#ffc }
+

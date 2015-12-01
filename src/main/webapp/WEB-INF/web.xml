@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>eTeamCS Application</display-name>
+
+    <!-- Define the basename for a resource bundle for I18N -->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>messages</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+        <param-value>pt_BR</param-value>
+    </context-param>    
+    <filter>
+        <filter-name>exportFilter</filter-name>
+        <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+    </filter>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext*.xml</param-value>
+    </context-param>
+
+	<resource-ref>
+		 <description>eTeamCS PostgreSQL Datasource</description>
+		 <res-ref-name>jdbc/dbeteamcs</res-ref-name>
+		 <res-type>javax.sql.DataSource</res-type>
+		 <res-auth>Container</res-auth>
+	</resource-ref>
+<!-- 
+	Acegi Security Configuration
+-->
+	<filter>
+	  <filter-name>Acegi Filter Chain Proxy</filter-name>
+	  <filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
+	  <init-param>
+	    <param-name>targetClass</param-name>
+	    <param-value>org.acegisecurity.util.FilterChainProxy</param-value>
+	  </init-param>
+	</filter>
+	
+	<filter-mapping>
+	  <filter-name>Acegi Filter Chain Proxy</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--
+	  - Loads the root application context of this web app at startup.
+	  - The application context is then available via 
+	  - WebApplicationContextUtils.getWebApplicationContext(servletContext).
+    -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+    
+    <!--
+        The HttpSessionEventPublisher will publish
+        HttpSessionCreatedEvent and HttpSessionDestroyedEvent
+        to the WebApplicationContext
+ -->  
+    <listener>
+        <listener-class>org.acegisecurity.ui.session.HttpSessionEventPublisher</listener-class>
+    </listener>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>exportFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+   
+   <servlet>
+      <servlet-name>action</servlet-name>
+      <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+      <init-param>
+         <param-name>config</param-name>
+         <param-value>/WEB-INF/struts-config.xml</param-value>
+      </init-param>
+      <init-param>
+         <param-name>debug</param-name>
+         <param-value>3</param-value>
+      </init-param>
+      <init-param>
+         <param-name>detail</param-name>
+         <param-value>3</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   
+   <servlet-mapping>
+      <servlet-name>action</servlet-name>
+      <url-pattern>*.do</url-pattern>
+   </servlet-mapping>
+
+   <servlet>
+   	<servlet-name>dwr-invoker</servlet-name>
+   	<servlet-class>
+   		org.directwebremoting.servlet.DwrServlet
+   	</servlet-class>
+   	<init-param>
+   		<param-name>debug</param-name>
+   		<param-value>true</param-value>
+   	</init-param>
+   </servlet>
+
+   <servlet-mapping>
+   	<servlet-name>dwr-invoker</servlet-name>
+   	<url-pattern>/dwr/*</url-pattern>
+   </servlet-mapping>
+
+
+</web-app>
+

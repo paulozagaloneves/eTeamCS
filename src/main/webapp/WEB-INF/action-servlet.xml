@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean name="/secure/contacts/createContact" class="org.eteamcs.web.struts.action.ContactAction" singleton="false">
+        <property name="contactManager"><ref bean="contactManager"/></property>
+        <property name="companyManager"><ref bean="companyManager"/></property>
+        <property name="relationManager"><ref bean="relationManager"/></property>
+		<property name="categoryManager"><ref bean="categoryManager"/></property>
+		<property name="countryManager"><ref bean="countryManager"/></property>
+    </bean>
+    <bean name="/secure/contacts/listContact" class="org.eteamcs.web.struts.action.ContactAction" singleton="false">
+        <property name="contactManager"><ref bean="contactManager"/></property>
+        <property name="companyManager"><ref bean="companyManager"/></property>
+        <property name="relationManager"><ref bean="relationManager"/></property>
+        <property name="categoryManager"><ref bean="categoryManager"/></property>        
+    </bean>        
+	<bean name="/secure/contacts/editContact" class="org.eteamcs.web.struts.action.ContactAction" singleton="false">
+		<property name="contactManager"><ref bean="contactManager"/></property>
+		<property name="companyManager"><ref bean="companyManager"/></property>
+		<property name="relationManager"><ref bean="relationManager"/></property>
+		<property name="categoryManager"><ref bean="categoryManager"/></property>
+		<property name="countryManager"><ref bean="countryManager"/></property>
+	</bean>
+	<bean name="/secure/contacts/saveContact" class="org.eteamcs.web.struts.action.ContactAction" singleton="false">
+		<property name="contactManager"><ref bean="contactManager"/></property>
+		<property name="companyManager"><ref bean="companyManager"/></property>
+	</bean>
+   <bean name="/secure/contacts/confirmDeleteContact" class="org.eteamcs.web.struts.action.ContactAction" singleton="false">
+      <property name="contactManager"><ref bean="contactManager"/></property>
+      <property name="companyManager"><ref bean="companyManager"/></property>
+      <property name="relationManager"><ref bean="relationManager"/></property>
+      <property name="categoryManager"><ref bean="categoryManager"/></property>
+      <property name="countryManager"><ref bean="countryManager"/></property>
+   </bean>   
+	<bean name="/secure/contacts/deleteContact" class="org.eteamcs.web.struts.action.ContactAction" singleton="false">
+		<property name="contactManager"><ref bean="contactManager"/></property>
+	</bean>		
+	
+	<!-- ############################### Company ######################################################## -->
+    <bean name="/secure/company/createCompany" class="org.eteamcs.web.struts.action.CompanyAction" singleton="false">
+        <property name="companyManager"><ref bean="companyManager"/></property>
+		<property name="countryManager"><ref bean="countryManager"/></property>
+       <property name="relationManager"><ref bean="relationManager"/></property>
+      <property name="categoryManager"><ref bean="categoryManager"/></property>      
+    </bean>
+    <bean name="/secure/company/listCompany" class="org.eteamcs.web.struts.action.CompanyAction" singleton="false">
+        <property name="companyManager"><ref bean="companyManager"/></property>
+	      <property name="relationManager"><ref bean="relationManager"/></property>
+	      <property name="categoryManager"><ref bean="categoryManager"/></property>        
+    </bean>
+    <bean name="/secure/contacts/popup_companies" class="org.eteamcs.web.struts.action.CompanyAction" singleton="false">
+        <property name="companyManager"><ref bean="companyManager"/></property>
+         <property name="relationManager"><ref bean="relationManager"/></property>
+         <property name="categoryManager"><ref bean="categoryManager"/></property>        
+    </bean>            
+	<bean name="/secure/company/editCompany" class="org.eteamcs.web.struts.action.CompanyAction" singleton="false">
+		<property name="companyManager"><ref bean="companyManager"/></property>
+		<property name="countryManager"><ref bean="countryManager"/></property>
+      <property name="relationManager"><ref bean="relationManager"/></property>
+      <property name="categoryManager"><ref bean="categoryManager"/></property> 
+      <property name="contactManager"><ref bean="contactManager"/></property>     
+	</bean>
+	<bean name="/secure/company/saveCompany" class="org.eteamcs.web.struts.action.CompanyAction" singleton="false">
+		<property name="companyManager"><ref bean="companyManager"/></property>
+	</bean>
+   <bean name="/secure/company/confirmDeleteCompany" class="org.eteamcs.web.struts.action.CompanyAction" singleton="false">
+      <property name="companyManager"><ref bean="companyManager"/></property>
+      <property name="countryManager"><ref bean="countryManager"/></property>
+      <property name="relationManager"><ref bean="relationManager"/></property>
+      <property name="categoryManager"><ref bean="categoryManager"/></property>
+      <property name="contactManager"><ref bean="contactManager"/></property>      
+   </bean>   
+	<bean name="/secure/company/deleteCompany" class="org.eteamcs.web.struts.action.CompanyAction" singleton="false">
+		<property name="companyManager"><ref bean="companyManager"/></property>
+	</bean>   
+
+	<!-- ################################### IMPORT ########################################################## -->
+	<bean name="/secure/import/importContacts" class="org.eteamcs.web.struts.action.ImportContactsAction" singleton="false">
+        <property name="companyManager"><ref bean="companyManager"/></property>
+        <property name="contactManager"><ref bean="contactManager"/></property>
+        <property name="importExcell"><ref bean="importExcell"/></property>
+    </bean>
+</beans>

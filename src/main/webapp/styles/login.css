@@ -1,0 +1,49 @@
+/* */
+.button {
+   border : solid 1px #cccccc;
+   background: #E9ECEF;
+   color : #666666;
+   font-weight : bold;
+   font-size : 11px;
+   /*padding: 1px; */
+}
+
+.button_info {
+   border : solid 1px #000;
+   background: #ACB4FF;
+   color : #444;
+   font-weight : bold;
+   font-size : 11px;
+   /*padding: 1px; */
+}
+
+.login {
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 80px;
+   padding: 15px;
+   border: 1px solid #cccccc;
+   width: 350px;
+   height: 170px;
+   background: #F1F3F5;
+}
+
+.login-form {
+   text-align: left;
+   float: right;
+   width: 70%;
+}
+
+.login-text {
+   text-align: left;
+   /*width: 40%;*/
+   float: left;
+}
+
+.login-title {
+   font-family: Arial;
+   font-size: 24px;
+   font-weight : bold;
+   letter-spacing: 2px;
+   color: #fc7116;
+}

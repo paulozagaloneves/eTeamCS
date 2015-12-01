@@ -1,0 +1,37 @@
+/* scroller background: iframe BODY object */
+body {
+   padding-left: 5px;
+   background: #fff;
+   color: #000;
+   font-size : 10px;
+   font-family : Tahoma, Verdana;   
+}
+
+A {
+   color: #fc7116;
+   text-decoration: none;
+}
+
+a:hover {
+	color: gray;
+}
+
+
+.data {
+	font-weight: bold;
+	color: gray;
+}
+
+.Back {
+	padding-left: 5px;
+	background: #fff;
+}
+/* style to be applyed to all items' bodies - DIV
+	all local stylesheets of external files if any are to be ignored */
+.ItemBody {
+   padding-left: 5px;
+   background: #fff;
+   color: #000;
+   font-size : 10px;
+   font-family : Tahoma, Verdana; 
+}

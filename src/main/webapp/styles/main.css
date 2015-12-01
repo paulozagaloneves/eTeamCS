@@ -1,0 +1,380 @@
+/* css main - eTeamCS, by Paulo Neves */
+/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
+/* All associated graphics copyright 2005, Paulo Neves */
+/* Added: June 8th, 2005 */
+@import url(displaytag.css);
+
+@import url(login.css);
+
+/* basic elements */
+body {
+	margin: 0px;
+	padding: 0px;
+	color: #333;
+	background-color: #ffffff;
+	background-image: url(../images/fundo_body.png);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-attachment: fixed;
+	/*font: 76% Verdana, Arial, Helvetica, sans-serif;*/
+	font-size: 11px;
+	font-family: arial, helvetica, sans-serif;
+}
+
+html,body,#wrapper {
+	min-height: 100%; /*Sets the min height to the
+height of the viewport.*/
+	width: 100%;
+	height: 100%; /*Effectively, this is min height
+for IE5+/Win, since IE wrongly expands
+an element to enclose its content.
+This mis-behavior screws up modern
+browsers*/
+	margin: 0;
+	padding: 0;
+}
+
+html>body,html>body #wrapper {
+	height: auto; /*this undoes the IE hack, hiding it
+from IE using the child selector*/
+}
+
+#wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#main {
+	padding: 0;
+	margin-top: 0px;
+	margin-bottom: 80px;
+	height: auto;
+}
+
+#content {
+	padding-top: 30px;
+	padding-left: 15px;
+}
+
+img {
+	border: 0px;
+}
+
+#topMenu {
+	background-image: url(../images/fundo_cinza.png);
+	/*background-color: #eeeeee;*/
+	background-repeat: x-repeat;
+	background-position: center top;
+	height: 25px;
+	border-bottom: 1px solid #cccccc;
+}
+
+#myMenuID {
+	left: 0;
+	position: absolute;
+}
+
+#subMenu { /*background-image: url(../images/fundo_cinza.png);*/
+	/*background-color: #eeeeee;*/
+	background-repeat: x-repeat;
+	background-position: center top;
+	height: 45px;
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #ffffff;
+	background-color: #f1f3f5;
+	text-align: right;
+	font-weight: bold;
+	padding: 2px;
+}
+
+#subMenu TD {
+	text-align: center;
+	vertical-align: top;
+}
+
+#subMenu TABLE {
+	text-align: center;
+}
+
+#logoutMenu {
+	font-weight: bold;
+	padding: 8px;
+	right: 0;
+	position: absolute;
+}
+
+INPUT {
+	border: 1px solid #dddddd;
+	background-color: #fff;
+}
+
+.title {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	text-align: center;
+	width: 100%;
+	background-color: #dddddd;
+	font-weight: bold;
+}
+
+.boxBody {
+	padding-left: 15px;
+}
+
+TD {
+	font-size: 11px;
+	font-family: arial, helvetica, sans-serif;
+}
+
+#summary {
+	left: 0;
+	width: 200px;
+	border: 1px solid #eeeeee;
+	position: absolute;
+	top: 110px;
+}
+
+#controlpanel {
+	border: 1px solid #eeeeee;
+	background-color: #eeeeee;
+	width: 450px;
+	/*margin-left:250px;
+   margin-right:200px;*/
+	vertical-align: middle;
+	font-family: verdana;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+	/*position:absolute;
+   top:110px;*/
+}
+
+.controlpaneltitle {
+	background-color: #ffffff;
+	font-size: 13px;
+	padding-left: 1em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border: 1px solid #eeeeee;
+}
+
+.opControlPanel {
+	text-align: center;
+}
+
+#header {
+	height: 20px;
+	background-image: url(../images/fundo_laranja.png);
+	background-color: #80b5d7;
+	/* background-repeat: x-repeat;*/ /* background-position: center top;*/
+	/* background-position: right top;*/
+	border-bottom: 4px solid #fc7116;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+#left_header {
+	left: 0;
+	height: inherit;
+	text-align: left;
+	vertical-align: middle;
+   padding-top: 4px;
+   font-family: verdana;
+   font-size: 12px;
+   font-weight: bold;
+   text-align: left;   
+}
+
+#right_header {
+	right: 0;
+	height: inherit;
+	text-align: right;
+	vertical-align: middle;
+	color: black;
+}
+
+div.head {
+	width: 10.2em;
+	position: absolute;
+	top: 0;
+	/*font-size:80%;
+   padding-left:1%;
+   padding-right:1%;
+   margin-left:0;
+   margin-right:0;*/
+}
+
+.divcenter {
+	text-align: left;
+}
+
+#center_header {
+	height: inherit;
+	margin-left: 10.2em;
+	margin-right: 200px;
+	padding-left: 1em;
+	padding-right: 1em;
+   padding-top: 4px;
+	vertical-align: middle;
+	font-family: verdana;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+}
+
+.inputlabel {
+	font-weight: bold;
+	text-align: left;
+}
+
+.inputbox {
+	width: 150px;
+	margin: 0 0 1em 0;
+	border: 1px solid #cccccc;
+	text-align: left;
+}
+
+.form-block {
+	border: 1px solid #cccccc;
+	/* background: #E9ECEF;*/
+	padding-top: 15px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+}
+
+/*form {
+    margin: 0px;
+} */
+.clr {
+	clear: both;
+}
+
+/*.footer {
+
+   width: 100%;
+}*/
+#foot {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
+
+#footer {
+	position: absolute;
+	margin: 0;
+	bottom: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 35px;
+	font-size: 1em;
+	z-index: 5;
+	overflow: hidden;
+	color: #fff;
+}
+
+#copyright {
+	background: #fe5e02;
+	color: white;
+	font-weight: bold;
+	padding: 2px;
+}
+
+/* */
+A {
+	color: gray;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #fc7116;
+}
+
+.icon {
+	vertical-align: middle;
+}
+
+#content-left {
+   width: 25%;
+	float: left;
+	height: auto;
+	padding-right: 30px;
+}
+
+#content-center {
+   width: 40%;
+	float: left;
+	height: auto;
+	padding-right: 5px;
+}
+
+#content-right {
+   width: 25%;
+	float: right;
+	height: auto;
+	padding-right: 5px;
+}
+
+#content A {
+	color: #fc7116;
+	text-decoration: none;
+}
+
+#content a:hover {
+	color: gray;
+}
+
+#letters {
+	padding: 16px;
+}
+
+#letters A {
+	color: gray;	
+	text-decoration: none;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#letters a:hover {
+	color: #fc7116;
+}
+
+#results {
+	padding-left: 15px;
+}
+
+#searchForm {
+	padding-left: 15px;
+	
+}
+
+.subOption {
+	/*width:32px;
+	position: absolute;
+	top: 50px;*/
+}
+
+#messageInfo {
+	border: 2px solid #0000ff;
+	width: 25%;
+}
+
+#messageWarning {
+   background-color: #ffffdd;
+   padding: 5px;
+   border: 2px solid red;
+   width: 35%;
+}
+
+#errors {
+   border: 2px solid #ff0000;
+   width: 25%;
+   text-align: center;
+}
+
+.readonly_input {
+   background: #eee;
+}

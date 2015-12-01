@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans>
+	   <form-bean name="fileupload"
+            type="org.apache.struts.validator.DynaValidatorForm"
+            dynamic="true">
+            <form-property name="fileName"
+                type="org.apache.struts.upload.FormFile" />
+      </form-bean>
+      <form-bean
+            name="listContactForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="contactSearch" type="org.eteamcs.model.ContactSearch"/>
+      </form-bean>
+      <form-bean
+            name="listCompanyForm" type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="companySearch" type="org.eteamcs.model.CompanySearch"/>
+      </form-bean>
+	</form-beans>
+    <global-exceptions>
+       <exception key="error.required" type="org.springframework.dao.DataAccessException"
+                  path="/dataAccessFailure.jsp"/>
+      <exception
+         key="error.required"
+         path="/accessDenied.jsp"
+         type="org.acegisecurity.AccessDeniedException" />
+      <exception
+         key="error.required"
+         path="/dataAccessFailure.jsp"
+         type="org.springframework.transaction.CannotCreateTransactionException" />
+      <exception
+         key="error.required"
+         path="/dataAccessFailure.jsp"
+         type="org.springframework.jdbc.CannotGetJdbcConnectionException" />
+                  
+    </global-exceptions>
+    
+	<global-forwards>
+      <forward name="home" path="/home.jsp" />	
+      	
+	</global-forwards>
+			
+	<action-mappings>
+      <action path="/secure/contacts/createContact"
+         parameter="create"
+         attribute="saveContactForm"
+         name="saveContactForm"
+         scope="session"
+         validate="false"
+         type="org.eteamcs.web.struts.action.ContactAction">
+         <forward name="addContact" path="/secure/contacts/editContact.jsp" />
+      </action>
+
+      <action
+         attribute="saveContactForm"
+         name="saveContactForm"
+         parameter="edit"
+         path="/secure/contacts/editContact"
+         scope="session"
+         type="org.eteamcs.web.struts.action.ContactAction"
+         validate="false">
+         <forward name="editContact" path="/secure/contacts/editContact.jsp" />
+      </action>      
+	  
+	  <action
+         attribute="saveContactForm" 
+         input="/secure/contacts/editContact.jsp"
+         name="saveContactForm"
+         validate="true"
+         parameter="save"
+         path="/secure/contacts/saveContact"
+         scope="session"
+         type="org.eteamcs.web.struts.action.ContactAction">
+         <forward name="saveContactSuccess" path="/saveContactWithSuccess.jsp" redirect="true" />
+      </action>
+      
+      <action
+         attribute="saveContactForm"
+         name="saveContactForm"
+         parameter="confirmDelete"
+         path="/secure/contacts/confirmDeleteContact"
+         scope="session"
+         type="org.eteamcs.web.struts.action.ContactAction"
+         validate="false">
+         <forward name="confirmDeleteContact" path="/secure/contacts/confirmDeleteContact.jsp" />
+      </action> 
+            
+	  <action
+         parameter="delete"
+         path="/secure/contacts/deleteContact"
+         scope="request"
+         type="org.eteamcs.web.struts.action.ContactAction">
+         <forward name="deleteContactSuccess" path="/secure/contacts/listContact.do" redirect="true" />
+      </action>      
+             
+      <action path="/secure/contacts/listContact"
+      	 name="listContactForm"
+         parameter="list"
+         attribute="listContactForm"
+         scope="session"
+         input="/secure/contacts/listContact.jsp"
+         type="org.eteamcs.web.struts.action.ContactAction">
+         <forward name="listContacts" path="/secure/contacts/listContact.jsp" />
+      </action>                    
+      
+      <!-- ############################# Companies ######################################## -->
+      <action path="/secure/company/createCompany"
+         parameter="create"
+         attribute="saveCompanyForm"
+         name="saveCompanyForm"
+         scope="session"
+         validate="false"
+         type="org.eteamcs.web.struts.action.CompanyAction">
+         <forward name="addCompany" path="/secure/company/editCompany.jsp" />
+      </action>
+
+      <action
+         attribute="saveCompanyForm"
+         name="saveCompanyForm"
+         parameter="edit"
+         path="/secure/company/editCompany"
+         scope="session"
+         type="org.eteamcs.web.struts.action.CompanyAction"
+         validate="false">
+         <forward name="editCompany" path="/secure/company/editCompany.jsp" />
+      </action>      
+	  
+	  <action
+         attribute="saveCompanyForm" 
+         input="/secure/company/editCompany.jsp"
+         name="saveCompanyForm"
+         validate="true"
+         parameter="save"
+         path="/secure/company/saveCompany"
+         scope="session"
+         type="org.eteamcs.web.struts.action.CompanyAction">
+         <forward name="saveCompanySuccess" path="/saveCompanyWithSuccess.jsp" redirect="true" />
+      </action>
+
+      <action
+         attribute="saveCompanyForm"
+         name="saveCompanyForm"
+         parameter="confirmDelete"
+         path="/secure/company/confirmDeleteCompany"
+         scope="session"
+         type="org.eteamcs.web.struts.action.CompanyAction"
+         validate="false">
+         <forward name="confirmDeleteCompany" path="/secure/company/confirmDeleteCompany.jsp" />
+      </action>       
+      
+	  <action
+         parameter="delete"
+         path="/secure/company/deleteCompany"
+         scope="request"
+         type="org.eteamcs.web.struts.action.CompanyAction">
+         <forward name="deleteCompanySuccess" path="/secure/company/listCompany.do" redirect="true" />
+      </action>      
+             
+      <action path="/secure/company/listCompany"
+      	 name="listCompanyForm"
+         parameter="list"
+         attribute="listCompanyForm"
+         scope="session"
+         input="/secure/company/listCompany.jsp"
+         type="org.eteamcs.web.struts.action.CompanyAction">
+         <forward name="listCompanies" path="/secure/company/listCompany.jsp" />
+      </action>
+      
+      <action path="/secure/contacts/popup_companies"
+          name="listCompanyForm"
+         parameter="list"
+         attribute="listCompanyForm"
+         scope="request"
+         input="/secure/contacts/popup/popup_listCompany.jsp"
+         type="org.eteamcs.web.struts.action.CompanyAction">
+         <forward name="listCompanies" path="/secure/contacts/popup/popup_listCompany.jsp" />
+      </action>                          
+           
+    <action
+      path="/secure/import/importContacts"
+      parameter="importFromExcell"
+      name="fileupload"
+      attribute="fileupload"
+      scope="request"
+      validate="false"
+      type="org.eteamcs.web.struts.action.ImportContactsAction">
+        <forward name="import" path="/secure/import/importFromExcell.jsp" />
+    </action>
+      
+    <action
+      path="/secure/import/uploadExcell"
+      parameter="uploadExcell"
+      name="fileupload"
+      attribute="fileupload"
+      scope="request"
+      validate="false"
+      type="org.eteamcs.web.struts.action.ImportContactsAction">
+        <forward name="success" path="/secure/import/importFromExcell.jsp" />
+    </action>
+	</action-mappings>
+	
+	<controller processorClass="org.springframework.web.struts.DelegatingRequestProcessor"/>
+
+	<message-resources parameter="messages"/>
+
+	<!-- ======================================= Plug Ins Configuration -->
+
+    <plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
+        <set-property property="contextConfigLocation"
+            value="/WEB-INF/applicationContext-ibatis.xml,
+                   /WEB-INF/applicationContext.xml,
+                   /WEB-INF/action-servlet.xml"/>
+    </plug-in>
+    	
+    <plug-in className="formdef.plugin.FormDefPlugIn">
+        <set-property property="defnames"
+            value="/WEB-INF/form-defs.xml"/>
+    </plug-in>
+
+    <!--  Validator plugin -->   
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames" value="/WEB-INF/validator-rules.xml,
+                                        /WEB-INF/validation.xml"/>
+    </plug-in>	
+</struts-config>
+

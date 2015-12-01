@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:jdbc.properties</value>
+        </property>
+    </bean>
+    <bean name="importExcell" class="org.eteamcs.io.ImportExcell" singleton="false">
+        <property name="contactManager"><ref bean="contactManager"/></property>
+        <property name="companyManager"><ref bean="companyManager"/></property>
+        <property name="relationManager"><ref bean="relationManager"/></property>
+        <property name="categoryManager"><ref bean="categoryManager"/></property>
+        <property name="countryManager"><ref bean="countryManager"/></property>
+    </bean>
+    
+    <!-- Transaction template for Managers, from:
+		 http://blog.exis.com/colin/archives/2004/07/31/concise-transaction-definitions-spring-11/ -->
+    <bean id="txProxyTemplate" abstract="true"
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref bean="transactionManager"/></property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="save*">PROPAGATION_REQUIRED</prop>
+                <prop key="remove*">PROPAGATION_REQUIRED</prop>
+                <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+
+
+   <bean id="contactManager" class="org.springframework.aop.framework.ProxyFactoryBean">
+      <property name="proxyInterfaces"><value>org.eteamcs.service.IContactManager</value></property>
+      <property name="interceptorNames">
+         <list>
+            <idref bean="contactManagerSecurity"/>
+            <idref local="contactManagerTarget"/>
+         </list>
+      </property>
+   </bean>
+   
+
+    <bean id="contactManagerTarget" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="org.eteamcs.service.impl.ContactManager">
+                <property name="contactDAO"><ref bean="contactDAO"/></property>
+                <property name="basicAclExtendedDao"><ref bean="basicAclExtendedDao"/></property>
+            </bean>
+        </property>
+    </bean>
+
+   <bean id="companyManager" class="org.springframework.aop.framework.ProxyFactoryBean">
+      <property name="proxyInterfaces"><value>org.eteamcs.service.ICompanieManager</value></property>
+      <property name="interceptorNames">
+         <list>
+            <idref bean="companyManagerSecurity"/>
+            <idref local="companyManagerTarget"/>
+         </list>
+      </property>
+   </bean>
+     
+    <bean id="companyManagerTarget" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="org.eteamcs.service.impl.CompanieManager">
+                <property name="companieDAO"><ref bean="companieDAO"/></property>
+                <property name="basicAclExtendedDao"><ref bean="basicAclExtendedDao"/></property>
+            </bean>
+        </property>
+    </bean>
+
+    
+    <bean id="relationManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="org.eteamcs.service.impl.RelationManager">
+                <property name="relationDAO"><ref bean="relationDAO"/></property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="categoryManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="org.eteamcs.service.impl.CategoryManager">
+                <property name="categoryDAO"><ref bean="categoryDAO"/></property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="countryManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="org.eteamcs.service.impl.CountryManager">
+                <property name="countryDAO"><ref bean="countryDAO"/></property>
+            </bean>
+        </property>
+    </bean>                 
+    <!-- bean id="contactManager" parent="txProxyTemplate">
+        <property name="target">
+            <bean class="org.eteamcs.service.impl.ContactManager">
+                <property name="contactDAO"><ref bean="contactDAO"/></property>
+            </bean>
+        </property>
+    </bean-->    
+</beans>

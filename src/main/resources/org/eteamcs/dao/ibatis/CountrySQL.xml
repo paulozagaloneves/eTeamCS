@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!-- $Id$  -->
+<sqlMap namespace="CountrySQL">
+  
+  	<cacheModel id="country-cache" type="LRU" serialize="true">
+  		<flushInterval hours="24"/>
+  		<flushOnExecute statement="addCountry"/>
+  		<flushOnExecute statement="updateCountry"/>
+  		<flushOnExecute statement="deleteCountry"/>
+  	</cacheModel>
+  	
+    <insert id="addCountry" parameterClass="org.eteamcs.model.Country">
+        insert into Country (acronym, locale, name)
+        values (#acronym#, #locale#, #name#)
+    </insert>
+    
+    <update id="updateCountry" parameterClass="org.eteamcs.model.Country">
+        update Country 
+        set locale = #locale#,
+        	name = #name#
+        where acronym = #acronym#
+          and locale='pt'
+    </update>
+    
+    <select id="getCountry" parameterClass="java.lang.String" 
+                         resultClass="org.eteamcs.model.Country" cacheModel="country-cache">
+        select acronym, locale, name
+        from Country 
+        where acronym=#acronym#
+          and locale = 'pt'
+    </select>
+    
+    <select id="getCountries" resultClass="org.eteamcs.model.Country" cacheModel="country-cache">
+        select acronym, locale, name
+        from Country
+        where locale='pt'
+        order by name;
+    </select>
+    
+	<delete id="deleteCountry" parameterClass="java.lang.Long">
+        delete from Country where acronym = #acronym# and locale='pt'
+    </delete>
+
+</sqlMap>

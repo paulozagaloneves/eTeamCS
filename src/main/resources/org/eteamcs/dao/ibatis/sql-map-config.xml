@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<!-- $Id$ -->
+<sqlMapConfig>
+    <settings enhancementEnabled="true" maxTransactions="52"
+        maxRequests="512" maxSessions="20"/>
+
+	<!-- sqlMap resource="org/eteamcs/dao/ibatis/UserSQL.xml" /-->
+	<sqlMap resource="org/eteamcs/dao/ibatis/ContactSQL.xml" />
+	<sqlMap resource="org/eteamcs/dao/ibatis/CompanySQL.xml" />
+	<sqlMap resource="org/eteamcs/dao/ibatis/CategorySQL.xml" />
+	<sqlMap resource="org/eteamcs/dao/ibatis/RelationSQL.xml" />
+	<sqlMap resource="org/eteamcs/dao/ibatis/CountrySQL.xml" />
+</sqlMapConfig>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!-- $Id$  -->
+<sqlMap namespace="ContactSQL">
+   <cacheModel id="contact-cache" type="LRU" serialize="true">
+  		<flushInterval hours="24"/>
+  		<flushOnExecute statement="addContact"/>
+  		<flushOnExecute statement="updateContact"/>
+  		<flushOnExecute statement="deleteContact"/>
+  	</cacheModel>
+  	
+    <resultMap id="get-contact-result" class="org.eteamcs.model.Contact">
+    	<result property="contactId" column="c_contact_id" />
+    	<result property="name" column="c_name" />
+    	<result property="title" column="c_title" />
+    	<result property="initials" column="c_initials" />
+    	<result property="sex" column="c_sex" />
+    	<result property="birthday" column="c_birthday" />
+    	<result property="streetAddress" column="c_street_address" />
+    	<result property="postalCode" column="c_postal_code" />
+    	<result property="bairro" column="c_bairro" />
+    	<result property="city" column="c_city" />
+    	<result property="state" column="c_state" />
+    	<result property="country" column="c_country" />
+    	<result property="phone" column="c_phone" />
+    	<result property="fax" column="c_fax" />
+    	<result property="cellular" column="c_cellular" />
+    	<result property="email" column="c_email" />
+    	<result property="email2" column="c_email2" />
+    	<result property="url" column="c_url" />
+    	<result property="company.companyId" column="company_id" />
+    	<result property="company.name" column="company_name" />
+    	<result property="department" column="c_department" />
+    	<result property="function" column="c_function" />
+    	<result property="phoneWork" column="c_phone_work" />
+    	<result property="faxWork" column="c_fax_work" />
+    	<result property="cellularWork" column="c_cellular_work" />
+    	<result property="color" column="c_color" />
+    	<result property="comments" column="c_comments" />
+    	<result property="indication" column="c_indication" />
+    	<result property="lastUpdate" column="c_last_update" />
+    	<result property="category" column="c_category" />
+    	<result property="categories" column="c_contact_id" select="getCategoriesByContactId" />
+    	<result property="username" column="c_username" />
+    	<result property="creationDate" column="c_creation_date" />    	
+    </resultMap>
+    
+   <resultMap id="get-relation-result" class="org.eteamcs.model.Relation">
+   		<result property="relationId" column="relation_id" />
+   		<result property="name" column="name" />
+   		<result property="parentId" column="parent_id" />
+   		<result property="username" column="username" />
+   		<result property="creationDate" column="creation_date" />
+   </resultMap>
+       
+    <statement id="getRelationsByContactId" parameterClass="java.lang.Long" resultMap="get-relation-result">
+    	select r.relation_id as relation_id, r.name as name, r.parent_id as parent_id, 
+    	       r.username as username, r.creation_date as creation_date 
+    	from relation r, contactsrelation cr
+    	where cr.contact_id=#value#
+    	  and cr.relation_id = r.relation_id
+    </statement>
+    
+   <resultMap id="get-category-result" class="org.eteamcs.model.Category">
+        <result property="categoryId" column="category_id" />
+        <result property="name" column="name" />
+        <result property="parentId" column="parent_id" />
+        <result property="username" column="username" />
+        <result property="creationDate" column="creation_date" />
+   </resultMap>
+       
+    <statement id="getCategoriesByContactId" parameterClass="java.lang.Long" resultMap="get-category-result">
+        select r.category_id as category_id, r.name as name, r.parent_id as parent_id, 
+               r.username as username, r.creation_date as creation_date 
+        from category r, contactcategories cr
+        where cr.contact_id=#value#
+          and cr.category_id = r.category_id
+    </statement>    
+    
+    <parameterMap id="update-contact-param" class="org.eteamcs.model.Contact">
+    	<parameter property="name" />
+    	<parameter property="title"  />
+    	<parameter property="initials" />
+    	<parameter property="sex"  />
+    	<parameter property="birthday"  jdbcType="TIMESTAMP"/>
+    	<parameter property="streetAddress"  />
+    	<parameter property="postalCode"  />
+    	<parameter property="bairro"  />
+    	<parameter property="city"  />
+    	<parameter property="state"  />
+    	<parameter property="country"  />
+    	<parameter property="phone"  />
+    	<parameter property="fax"  />
+    	<parameter property="cellular"  />
+    	<parameter property="email"  />
+    	<parameter property="email2"  />
+    	<parameter property="url"  />
+    	<parameter property="company.companyId" jdbcType="INT" nullValue="-999"/>
+    	<parameter property="department"  />
+    	<parameter property="function"  />
+    	<parameter property="phoneWork"  />
+    	<parameter property="faxWork"  />
+    	<parameter property="cellularWork"  />
+    	<parameter property="color"  />
+    	<parameter property="comments"  />
+    	<parameter property="indication"  />
+    	<parameter property="category"  />
+    	<parameter property="contactId"  />
+    	<parameter property="contactId"  />
+    	<parameter property="contactId"  />  
+    </parameterMap>
+        
+        
+    <insert id="addContact" parameterClass="org.eteamcs.model.Contact">
+        insert into Contacts (contact_id, name, title, initials, sex, birthday,
+        					street_address, postal_code, bairro, city, state, country,
+        					phone, fax, cellular, email, email2, url, company, department, 
+        					function, phone_work, fax_work, cellular_work, 
+        					color, comments, indication, last_update, category, username)
+        values (nextval('seq_contacts'), #name:VARCHAR#, #title:VARCHAR#,#initials:VARCHAR#,#sex:VARCHAR#,#birthday:TIMESTAMP#,#streetAddress:VARCHAR#,
+        		#postalCode:VARCHAR#,#bairro:VARCHAR#,#city:VARCHAR#,#state:VARCHAR#,#country:VARCHAR:-999#,#phone:VARCHAR#,#fax:VARCHAR#,#cellular:VARCHAR#,#email:VARCHAR#,#email2:VARCHAR#,#url:VARCHAR#,
+        		#company.companyId:INT:-999#,#department:VARCHAR#,#function:VARCHAR#,#phoneWork:VARCHAR#,#faxWork:VARCHAR#,#cellularWork:VARCHAR#,
+        		#color:VARCHAR#,#comments:VARCHAR#,#indication:VARCHAR#,now(),#category:INT:-999#,#username#);
+        <iterate property="categories">
+        	insert into contactcategories (category_id,contact_id)
+        			values(#categories[].categoryId#,currval('seq_contacts'));
+        </iterate>
+    </insert>
+    
+    <select id="getContactId" resultClass="java.lang.Long">
+         select currval('seq_contacts');
+    </select>    
+    
+    <update id="updateContact" parameterClass="org.eteamcs.model.Contact">
+        update Contacts 
+        set name = #name:VARCHAR#, 
+        	title = #title:VARCHAR#,
+        	initials = #initials:VARCHAR#,
+        	sex = #sex:VARCHAR#,
+        	birthday = #birthday:TIMESTAMP#,
+        	street_address = #streetAddress:VARCHAR#,
+            postal_code = #postalCode:VARCHAR#,
+            bairro = #bairro:VARCHAR#,
+            city = #city:VARCHAR#,
+            state = #state:VARCHAR#,
+            country = #country:VARCHAR:-999#,
+        	phone = #phone:VARCHAR#,
+        	fax = #fax:VARCHAR#,
+        	cellular = #cellular:VARCHAR#,
+        	email = #email:VARCHAR#,
+        	email2 = #email2:VARCHAR#,
+        	url = #url:VARCHAR#,
+        	company = #company.companyId:INT:-999#,
+        	department = #department:VARCHAR#,
+        	function = #function:VARCHAR#,
+        	phone_work = #phoneWork:VARCHAR#,
+        	fax_work = #faxWork:VARCHAR#,
+        	cellular_work = #cellularWork:VARCHAR#, 
+        	color = #color:VARCHAR#,
+        	comments = #comments:VARCHAR#,
+        	indication = #indication:VARCHAR#,
+        	category = #category:INT:-999#,
+        	last_update = now()
+        where contact_id = #contactId:INT#;
+        
+        delete from contactcategories where contact_id = #contactId:INT#;
+        
+        <iterate property="categories">
+        	insert into contactcategories (category_id,contact_id)
+        			values(#categories[].categoryId#,#contactId:INT#);
+        </iterate>
+    </update>
+    
+    <select id="getContact" parameterClass="java.lang.Long" 
+                         resultMap="get-contact-result" cacheModel="contact-cache">
+        select c.contact_id as c_contact_id, c.name as c_name, c.title as c_title, c.initials as c_initials,
+        c.sex as c_sex, c.birthday as c_birthday, c.street_address as c_street_address, 
+        c.postal_code as c_postal_code, c.bairro as c_bairro, c.city as c_city, c.state as c_state, c.country as c_country, c.phone as c_phone,
+        c.fax as c_fax, c.cellular as c_cellular, c.email as c_email, c.email2 as c_email2, c.url as c_url, comp.company_id as company_id, comp.name as company_name,
+        c.department as c_department, c.function as c_function, c.phone_work as c_phone_work, c.fax_work as c_fax_work,
+        c.cellular_work as c_cellular_work, c.color as c_color, c.comments as c_comments, c.indication as c_indication, c.last_update as c_last_update,
+        c.category as c_category, c.username as c_username, c.creation_date as c_creation_date
+        from Contacts c LEFT OUTER JOIN Companies comp ON (company = company_id)
+        where contact_id=#contactId#
+    </select>
+    
+
+    
+    <select id="getContacts" resultMap="get-contact-result" cacheModel="contact-cache">
+        select c.contact_id as c_contact_id, c.name as c_name, c.title as c_title, c.initials as c_initials,
+        c.sex as c_sex, c.birthday as c_birthday, c.street_address as c_street_address, 
+        c.postal_code as c_postal_code, c.bairro as c_bairro, c.city as c_city, c.state as c_state, c.country as c_country, c.phone as c_phone,
+        c.fax as c_fax, c.cellular as c_cellular, c.email as c_email, c.email2 as c_email2, c.url as c_url, comp.company_id as company_id, comp.name as company_name,
+        c.department as c_department, c.function as c_function, c.phone_work as c_phone_work, c.fax_work as c_fax_work,
+        c.cellular_work as c_cellular_work, c.color as c_color, c.comments as c_comments, c.indication as c_indication, c.last_update as c_last_update, 
+        c.category as c_category, c.username as c_username, c.creation_date as c_creation_date
+        from Contacts c LEFT OUTER JOIN Companies comp ON (company = company_id)
+        <dynamic prepend="WHERE">
+            <isNotEmpty property="letter">
+               upper(c.name) like #letter#
+            </isNotEmpty>
+            <iterate property="keywordList" prepend="AND" open="" close="" conjunction="OR">
+               lower(c.name) like #keywordList[]#     
+            </iterate>
+        </dynamic>
+        order by c.name;
+    </select>
+    
+    <select id="getContactsByCompanyId" parameterClass="java.lang.Long"  resultMap="get-contact-result" cacheModel="contact-cache">
+        select c.contact_id as c_contact_id, c.name as c_name, c.title as c_title, c.initials as c_initials,
+        c.sex as c_sex, c.birthday as c_birthday, c.street_address as c_street_address, 
+        c.postal_code as c_postal_code, c.bairro as c_bairro, c.city as c_city, c.state as c_state, c.country as c_country, c.phone as c_phone,
+        c.fax as c_fax, c.cellular as c_cellular, c.email as c_email, c.email2 as c_email2, c.url as c_url, comp.company_id as company_id, comp.name as company_name,
+        c.department as c_department, c.function as c_function, c.phone_work as c_phone_work, c.fax_work as c_fax_work,
+        c.cellular_work as c_cellular_work, c.color as c_color, c.comments as c_comments, c.indication as c_indication, c.last_update as c_last_update, 
+        c.category as c_category, c.username as c_username, c.creation_date as c_creation_date
+        from Contacts c LEFT OUTER JOIN Companies comp ON (company = company_id)
+        where company = #companyId#
+        order by c.name;
+    </select>    
+    
+    <select id="searchContacts" resultMap="get-contact-result" cacheModel="contact-cache">
+        select c.contact_id as c_contact_id, c.name as c_name, c.title as c_title, c.initials as c_initials,
+        c.sex as c_sex, c.birthday as c_birthday, c.street_address as c_street_address, 
+        c.postal_code as c_postal_code, c.bairro as c_bairro, c.city as c_city, c.state as c_state, c.country as c_country, c.phone as c_phone,
+        c.fax as c_fax, c.cellular as c_cellular, c.email as c_email, c.email2 as c_email2, c.url as c_url, comp.company_id as company_id, comp.name as company_name,
+        c.department as c_department, c.function as c_function, c.phone_work as c_phone_work, c.fax_work as c_fax_work,
+        c.cellular_work as c_cellular_work, c.color as c_color, c.comments as c_comments, c.indication as c_indication, c.last_update as c_last_update, 
+        c.category as c_category, c.username as c_username, c.creation_date as c_creation_date
+        from Contacts c LEFT OUTER JOIN Companies comp ON (company = company_id)
+        <dynamic prepend="WHERE">
+            <isEqual property="searchCategory" compareValue="-1" prepend="AND">
+               c.category is null
+            </isEqual>
+            <isGreaterEqual property="searchCategory" compareValue="0" prepend="AND">
+               #searchCategory# in (SELECT category_id from contactcategories cr where cr.contact_id=c.contact_id)
+            </isGreaterEqual>
+            <isNotEqual property="searchCompany" compareValue="-999" prepend="AND">
+               c.company = #searchCompany#
+            </isNotEqual> 
+            <isNotEmpty property="searchTerm" prepend="AND">
+               lower(c.name) like #searchTerm#
+            </isNotEmpty>
+            <isEqual property="searchRelation" compareValue="-1" prepend="AND">
+               c.contact_id not in (select distinct cr.contact_id from contactsrelation cr)
+            </isEqual>
+            <isGreaterEqual property="searchRelation" compareValue="0" prepend="AND">
+               #searchRelation#  in (SELECT relation_id from contactsrelation cr where cr.contact_id=c.contact_id)
+            </isGreaterEqual>
+        </dynamic>
+        order by c.name;
+    </select>    
+    
+	<delete id="deleteContact" parameterClass="java.lang.Long">
+		delete from contactcategories where contact_id = #contactId#;
+        delete from Contacts where contact_id = #contactId#;
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!-- $Id$  -->
+<sqlMap namespace="CompanySQL">
+  	
+  	<cacheModel id="company-cache" type="LRU" serialize="true">
+  		<flushInterval hours="24"/>
+  		<flushOnExecute statement="addCompanie"/>
+  		<flushOnExecute statement="updateCompanie"/>
+  		<flushOnExecute statement="deleteCompanie"/>
+  	</cacheModel>
+                  
+    <resultMap id="get-company-result" class="org.eteamcs.model.Companie">
+      <result property="companyId" column="company_id" />
+      <result property="name" column="name" />
+      <result property="phone" column="phone" />
+      <result property="fax" column="fax" />
+      <result property="email" column="email" />
+      <result property="url" column="url" />
+      <result property="streetAddress" column="street_address" />
+      <result property="postalCode" column="postal_code" />
+      <result property="bairro" column="bairro" />
+      <result property="city" column="city" />
+      <result property="state" column="state" />
+      <result property="country" column="country" />      
+      <result property="comments" column="comments" />
+      <result property="lastUpdate" column="last_update" />
+      <result property="category" column="category" />
+      <result property="relations" column="company_id" select="getRelationsByCompanyId" />
+      <result property="username" column="username" />
+      <result property="creationDate" column="creation_date" />       
+    </resultMap>
+    
+   <resultMap id="get-companyrelation-result" class="org.eteamcs.model.Relation">
+         <result property="relationId" column="relation_id" />
+         <result property="name" column="name" />
+         <result property="parentId" column="parent_id" />
+         <result property="username" column="username" />
+         <result property="creationDate" column="creation_date" />
+   </resultMap>
+       
+    <statement id="getRelationsByCompanyId" parameterClass="java.lang.Long" resultMap="get-companyrelation-result">
+      select r.relation_id as relation_id, r.name as name, r.parent_id as parent_id, 
+             r.username as username, r.creation_date as creation_date 
+      from relation r, companiesrelation cr
+      where cr.company_id=#value#
+        and cr.relation_id = r.relation_id
+    </statement>   
+  
+    <insert id="addCompanie" parameterClass="org.eteamcs.model.Companie">
+        insert into Companies (company_id, name, phone, fax, email, url, street_address,
+        		bairro,postal_code, city, state, country, comments, category, last_update, username)
+        values (nextval('seq_companies'), #name:VARCHAR#, #phone:VARCHAR#,#fax:VARCHAR#,#email:VARCHAR#,#url:VARCHAR#,#streetAddress:VARCHAR#,
+        		#bairro:VARCHAR#,#postalCode:VARCHAR#,#city:VARCHAR#,#state:VARCHAR#,#country:VARCHAR:-999#,#comments:VARCHAR#,#category:INT:-999#, now(),#username#);
+        <iterate property="relations">
+         insert into companiesrelation (relation_id,company_id)
+               values(#relations[].relationId#,currval('seq_companies'));
+        </iterate>            
+    </insert>
+    
+    <select id="getCompanyId" resultClass="java.lang.Long">
+         select currval('seq_companies');
+    </select>     
+    
+    <update id="updateCompanie" parameterClass="org.eteamcs.model.Companie">
+        update Companies 
+        set name = #name:VARCHAR#,
+        	phone = #phone:VARCHAR#,
+        	fax = #fax:VARCHAR#,
+        	email = #email:VARCHAR#,
+        	url = #url:VARCHAR#,
+        	street_address = #streetAddress:VARCHAR#,
+         postal_code = #postalCode:VARCHAR#,
+         bairro = #bairro:VARCHAR#,
+         city = #city:VARCHAR#,
+         country = #country:VARCHAR:-999#,
+         comments = #comments:VARCHAR#,
+         category = #category:INT:-999#,
+         last_update = now()        	
+        where company_id = #companyId#;
+        
+       delete from companiesrelation where company_id = #companyId:INT#;
+        
+        <iterate property="relations">
+         insert into companiesrelation (relation_id,company_id)
+               values(#relations[].relationId#,#companyId:INT#);
+        </iterate>        
+    </update>
+       
+    <select id="getCompanie" parameterClass="java.lang.Long" 
+            resultMap="get-company-result" cacheModel="company-cache">
+         select company_id, name,phone, fax, email, url,street_address,
+            postal_code, bairro, city, state, country, comments, category, last_update, 
+            category, username, creation_date
+        from Companies 
+        where company_id=#companyId#
+    </select>
+    
+    <select id="getCompanieByName" parameterClass="java.lang.String" 
+            resultMap="get-company-result" cacheModel="company-cache">
+         select company_id, name,phone, fax, email, url,street_address,
+            postal_code, bairro, city, state, country, comments, category, last_update, 
+            category, username, creation_date
+        from Companies 
+        where lower(name)=#name#
+    </select>    
+    
+    <select id="getCompanies" resultClass="org.eteamcs.model.Companie" cacheModel="company-cache">
+        select company_id as companyId, name, phone, fax, email, url,street_address as streetAddress,
+        		postal_code as postalCode, bairro, city, state, country, comments, category, 
+            last_update as lastUpdate, username, creation_date as creationDate
+        from Companies
+        <dynamic prepend="WHERE">
+            <isNotEmpty property="letter">
+               upper(name) like #letter#
+            </isNotEmpty>
+            <iterate property="keywordList" prepend="AND" open="" close="" conjunction="OR">
+               lower(name) like #keywordList[]#     
+            </iterate>
+        </dynamic>        
+        order by name
+    </select>
+    
+    <select id="searchCompanies" resultClass="org.eteamcs.model.Companie" cacheModel="company-cache">
+        select c.company_id as companyId, name, phone, fax, email, url,street_address as streetAddress,
+            postal_code as postalCode, city, country, post_street_address as postStreetAddress,
+            post_postal_code as postPostalCode, post_city as postCity, post_state as postState, 
+            post_country as postCountry, username, creation_date as creationDate
+        from Companies c
+        <dynamic prepend="WHERE">
+            <isEqual property="searchCategory" compareValue="-1" prepend="AND">
+               category is null
+            </isEqual>
+            <isGreaterEqual property="searchCategory" compareValue="0" prepend="AND">
+               category = #searchCategory#
+            </isGreaterEqual> 
+            <isNotEmpty property="searchTerm" prepend="AND">
+               lower(name) like #searchTerm#
+            </isNotEmpty>
+            <isEqual property="searchRelation" compareValue="-1" prepend="AND">
+               company_id not in (select distinct cr.company_id from companiesrelation cr)
+            </isEqual>
+            <isGreaterEqual property="searchRelation" compareValue="0" prepend="AND">
+               #searchRelation#  in (SELECT relation_id from companiesrelation cr where cr.company_id=c.company_id)
+            </isGreaterEqual>
+        </dynamic>        
+        order by name
+    </select>    
+    
+	<delete id="deleteCompanie" parameterClass="java.lang.Long">
+        delete from companiesrelation where company_id = #companyId#;
+        delete from Companies where company_id = #companyId#;
+    </delete>
+
+</sqlMap>

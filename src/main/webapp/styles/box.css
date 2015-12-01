@@ -1,0 +1,32 @@
+/* css box - eTeamCS, by Paulo Neves */
+/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
+/* All associated graphics copyright 2005, Paulo Neves */
+/* Added: June 8th, 2005 */
+.icon_box {
+	width: 1px;
+	height: 10px;
+	position: relative;
+	top: -24px;
+	left: -12px;
+	/*border: 1px solid #ff0000;*/
+}
+
+.box-body {
+	background: #fff;
+	width: auto;
+	height: auto;
+	border: 1px solid #dddddd;
+	background-image: url(../images/body_back.gif);
+	background-repeat: repeat-x;
+	background-position: left top;
+}
+
+.box-title {
+	/*background-image: url(../images/headerloop.gif);
+	background-repeat: x-repeat;
+	background-position: left top;*/
+	font-weight: bold;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}

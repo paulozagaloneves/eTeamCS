@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!-- $Id$  -->
+<sqlMap namespace="RelationSQL">
+
+   <cacheModel id="relation-cache" type="LRU" serialize="true">
+  		<flushInterval hours="24"/>
+  		<flushOnExecute statement="addRelation"/>
+  		<flushOnExecute statement="updateRelation"/>
+  		<flushOnExecute statement="deleteRelation"/>
+  	</cacheModel> 
+  	  
+    <insert id="addRelation" parameterClass="org.eteamcs.model.Relation">
+        insert into Relation (relation_id, name, parent_id, username)
+        values (nextval('seq_relation'), #name#, #parentId#,#username#)
+    </insert>
+    
+    <update id="updateRelation" parameterClass="org.eteamcs.model.Relation">
+        update Relation 
+        set name = #name#,
+        	parent_id = #parentId#,
+        where relation_id = #relationId#
+    </update>
+    
+    <select id="getRelation" parameterClass="java.lang.Long" 
+                         resultClass="org.eteamcs.model.Relation" cacheModel="relation-cache">
+        select relation_id as relationId, name, parent_id as parentId,
+        		username, creation_date as creationDate
+        from Relation 
+        where relation_id=#relationId#
+    </select>
+    
+    <select id="getRelations" resultClass="org.eteamcs.model.Relation" cacheModel="relation-cache">
+        select relation_id as relationId, name, parent_id as parentId,
+        		username, creation_date as creationDate
+        from Relation
+        order by name;
+    </select>
+    
+    
+    
+	<delete id="deleteRelation" parameterClass="java.lang.Long">
+        delete from Relation where relation_id = #relationId#;
+    </delete>
+
+</sqlMap>

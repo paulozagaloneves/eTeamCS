@@ -1,0 +1,15 @@
+<decorators defaultdir="/decorators">
+	<excludes>
+        <pattern>/ts_files/*</pattern>
+        <pattern>/s*_data/*</pattern>
+        <!-- pattern>/secure/contacts/popup*</pattern-->
+    </excludes>
+    <decorator name="popup" page="orange_popup.jsp">
+        <pattern>/secure/contacts/popup*</pattern>
+    </decorator>    
+    <decorator name="default" page="orange.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+  
+    <decorator name="sessiondeco" page="sessiondeco.jsp" />
+</decorators>

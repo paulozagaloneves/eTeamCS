@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!-- $Id$  -->
+<sqlMap namespace="CategorySQL">
+  
+  	<cacheModel id="category-cache" type="LRU" serialize="true">
+  		<flushInterval hours="24"/>
+  		<flushOnExecute statement="addCategory"/>
+  		<flushOnExecute statement="updateCategory"/>
+  		<flushOnExecute statement="deleteCategory"/>
+  	</cacheModel>
+  	
+    <insert id="addCategory" parameterClass="org.eteamcs.model.Category">
+        insert into Category (category_id, name, parent_id, username)
+        values (nextval('seq_category'), #name:VARCHAR#, #parentId:INT#,#username#)
+    </insert>
+    
+    <select id="getCategoryId" resultClass="java.lang.Long">
+         select currval('seq_category');
+    </select>     
+    
+    <update id="updateCategory" parameterClass="org.eteamcs.model.Category">
+        update Category 
+        set name = #name#,
+        	parent_id = #parentId#,
+        where category_id = #categoryId#
+    </update>
+    
+    <select id="getCategory" parameterClass="java.lang.Long" 
+                         resultClass="org.eteamcs.model.Category" cacheModel="category-cache">
+        select category_id as categoryId, name, parent_id as parentId,
+        		username, creation_date as creationDate
+        from Category 
+        where category_id=#categoryId#
+    </select>
+    
+    <select id="getCategoryByName" 
+                         resultClass="org.eteamcs.model.Category" cacheModel="category-cache">
+        select category_id as categoryId, name, parent_id as parentId,
+                username, creation_date as creationDate
+        from Category 
+        <dynamic prepend="WHERE">
+        <isNotEmpty property="name" prepend="AND">
+               lower(name)=#name#
+        </isNotEmpty>
+        <isNotNull property="parentId" prepend="AND">
+               parent_id=#parentId#
+        </isNotNull>
+        <isNull property="parentId" prepend="AND">
+               parent_id is null
+        </isNull>
+       </dynamic>  
+    </select>
+    
+    <select id="getCategories" resultClass="org.eteamcs.model.Category" cacheModel="category-cache">
+        select category_id as categoryId, name, parent_id as parentId,
+        		username, creation_date as creationDate
+        from Category
+        order by name;
+    </select>
+    
+    <select id="getCategoriesByParentId" parameterClass="java.lang.Long"
+        resultClass="org.eteamcs.model.Category" cacheModel="category-cache">
+        select category_id as categoryId, name, parent_id as parentId,
+        		username, creation_date as creationDate
+        from Category
+        where parent_id=#parentId#
+        order by name;
+    </select>
+	<delete id="deleteCategory" parameterClass="java.lang.Long">
+        delete from Category where category_id = #categoryId#;
+    </delete>
+
+</sqlMap>

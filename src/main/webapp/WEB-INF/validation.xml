@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC 
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN" 
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+    <formset>
+        <form name="loginForm">
+            <field property="login.username" depends="required">
+                <arg0 key="login.username"/>
+            </field>
+            <field property="login.password" depends="required">
+                <arg0 key="login.password"/>
+            </field>            
+        </form>
+        <form name="saveContactForm">
+            <field property="name" depends="required">
+                <arg0 key="app.contact.edit.lblname"/>
+            </field>
+            <field property="birthday" depends="date">
+		        <arg0 key="app.contact.edit.lblbirthday"/>
+		        <var><var-name>datePattern</var-name><var-value>dd/MM/yyyy</var-value></var>
+		      </field>  
+            <field property="email" depends="email">
+                <arg0 key="app.contact.edit.lblemail"/>
+            </field>
+            <field property="email2" depends="email">
+                <arg0 key="app.contact.edit.lblemail"/>
+            </field>                      
+        </form>        
+        <form name="saveCompanyForm">
+            <field property="name" depends="required">
+                <arg0 key="app.company.edit.lblname"/>
+            </field>  
+            <field property="email" depends="email">
+                <arg0 key="app.company.edit.lblemail"/>
+            </field>                     
+        </form>        
+    </formset>
+</form-validation>

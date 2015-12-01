@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE form-definition PUBLIC 
+        "-//FormDef//FormDef Form Definition 0.6//EN" 
+        "form-defs_0_6.dtd">
+<form-definition>
+    <formdef-config
+        formType="org.apache.struts.validator.DynaValidatorForm"/>
+
+    <global-converters>
+        <!-- used when field's type matches the specified type -->
+        <global-converter for="property-type"
+            target="java.util.Date"
+            param="dd/MM/yyyy"
+            exactMatch="false" />
+        <!-- exactMatch="false" allows this converter to apply to subclasses -->
+
+        <!-- used when a field's property name matches this converter's target -->
+        <!-- can override "type" -->
+        <global-converter for="property-name"
+            target="int2"
+            param="###,###,##0"/>
+
+        <!-- used with <field ...><conversion name="uniqueDateConverter"/></field> -->
+        <!-- can override "type" and "property" -->
+        <!-- global-converter for="converter-name"
+            target="specialDateConverter"
+            type="formdef.plugin.example.sampler.SpecialDateConverter"
+            param="MMMyy"/ -->
+           
+    </global-converters>
+
+    <formset>
+    
+    	<form name="companyForm"
+        			beanType="org.eteamcs.model.Companie"/>       			
+
+        <form name="saveContactForm"
+        			beanType="org.eteamcs.model.Contact">
+
+        	<!-- specify that our address field should use addressForm -->
+        	<field property="company" formName="companyForm"/>
+
+    	</form>	
+    	     			
+        <form name="saveCompanyForm"
+        			beanType="org.eteamcs.model.Companie">
+    	</form>
+    </formset>
+</form-definition>
